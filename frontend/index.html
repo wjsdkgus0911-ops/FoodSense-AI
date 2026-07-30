@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>FoodSense AI</title>
+
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+
+</head>
+
+
+<body>
+
+<div class="container">
+
+    <!-- =====================================================
+         HEADER
+    ====================================================== -->
+
+    <h1>FoodSense AI</h1>
+
+    <p class="subtitle">
+        AI 기반 바이오센서 식품 상태 분석 플랫폼
+    </p>
+
+
+    <!-- =====================================================
+         1. 이미지 및 정보 입력
+    ====================================================== -->
+
+    <div class="card">
+
+        <h2>바이오센서 이미지 분석</h2>
+
+
+        <label for="imageInput">
+            센서 사진
+        </label>
+
+        <br>
+
+        <input
+            type="file"
+            id="imageInput"
+            accept="image/jpeg,image/png,image/webp,image/jpg"
+            capture="environment"
+        >
+
+        <br><br>
+
+
+        <!-- 이미지 미리보기 -->
+
+        <img
+            id="preview"
+            alt="센서 이미지 미리보기"
+            style="
+                display:none;
+                width:100%;
+                max-width:500px;
+                max-height:350px;
+                object-fit:contain;
+                margin:15px auto;
+                border-radius:12px;
+            "
+        >
+
+        <br>
+
+
+        <!-- 식품 종류 -->
+
+        <label for="foodType">
+            식품 종류
+        </label>
+
+        <br>
+
+        <select id="foodType">
+
+            <option value="돼지고기">
+                돼지고기
+            </option>
+
+            <option value="두부">
+                두부
+            </option>
+
+            <option value="고등어">
+                고등어
+            </option>
+
+        </select>
+
+        <br><br>
+
+
+        <!-- LOT 번호 -->
+
+        <label for="lotId">
+            LOT 번호
+        </label>
+
+        <br>
+
+        <input
+            type="text"
+            id="lotId"
+            value="LOT-001"
+            placeholder="예: PORK-20260729-001"
+        >
+
+        <br><br>
+
+
+        <!-- 보관 온도 -->
+
+        <label for="temperature">
+            현재 보관 온도 (℃)
+        </label>
+
+        <br>
+
+        <input
+            type="number"
+            id="temperature"
+            value="5"
+            step="0.1"
+        >
+
+        <br><br>
+
+
+        <!-- 보관 기간 -->
+
+        <label for="storageDays">
+            보관 기간 (일)
+        </label>
+
+        <br>
+
+        <input
+            type="number"
+            id="storageDays"
+            value="0"
+            min="0"
+            step="0.1"
+        >
+
+        <br><br>
+
+
+        <!-- 분석 -->
+
+        <button
+            type="button"
+            id="analyzeButton"
+        >
+            AI 분석 시작
+        </button>
+
+    </div>
+
+
+    <!-- =====================================================
+         2. AI 분석 결과
+    ====================================================== -->
+
+    <div
+        class="card result"
+        id="resultCard"
+    >
+
+        <h2>AI 분석 결과</h2>
+
+
+        <p id="analysisWaiting">
+            센서 사진을 선택하고 AI 분석을 시작해주세요.
+        </p>
+
+
+        <!-- 핵심 결과 -->
+
+        <div class="main-result">
+
+
+            <!-- 품질 점수 -->
+
+            <div class="result-box">
+
+                <span class="result-title">
+                    품질 점수
+                </span>
+
+                <strong>
+
+                    <span id="score">
+                        -
+                    </span>
+
+                    <small>
+                        /100
+                    </small>
+
+                </strong>
+
+            </div>
+
+
+            <!-- 품질 상태 -->
+
+            <div class="result-box">
+
+                <span class="result-title">
+                    품질 상태
+                </span>
+
+                <strong id="qualityStatus">
+                    -
+                </strong>
+
+            </div>
+
+
+            <!-- 현재 온도 -->
+
+            <div class="result-box">
+
+                <span class="result-title">
+                    현재 온도
+                </span>
+
+                <strong>
+
+                    <span id="resultTemperature">
+                        -
+                    </span>
+
+                    ℃
+
+                </strong>
+
+            </div>
+
+
+            <!-- 해동 -->
+
+            <div class="result-box">
+
+                <span class="result-title">
+                    해동 횟수
+                </span>
+
+                <strong>
+
+                    <span id="thawCount">
+                        -
+                    </span>
+
+                    회
+
+                </strong>
+
+            </div>
+
+
+            <!-- 재동결 -->
+
+            <div class="result-box">
+
+                <span class="result-title">
+                    재동결 횟수
+                </span>
+
+                <strong>
+
+                    <span id="refreezeCount">
+                        -
+                    </span>
+
+                    회
+
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <!-- 품질 등급 -->
+
+        <h3>
+            품질 등급
+        </h3>
+
+        <div class="grade">
+
+            <span id="grade">
+                -
+            </span>
+
+            <p id="freshness">
+                분석 대기
+            </p>
+
+        </div>
+
+
+        <!-- 온도 상태 -->
+
+        <h3>
+            온도 상태
+        </h3>
+
+        <p id="temperatureStatus">
+            -
+        </p>
+
+
+        <!-- 센서 변화율 -->
+
+        <h3>
+            센서 변화율
+        </h3>
+
+        <div class="progress">
+
+            <div id="bar"></div>
+
+        </div>
+
+        <p id="blue">
+            -
+        </p>
+
+
+        <!-- 센서 영역 -->
+
+        <h3>
+            센서 영역
+        </h3>
+
+        <p id="sensorDetection">
+            -
+        </p>
+
+
+        <!-- 보관 정보 -->
+
+        <h3>
+            보관 정보
+        </h3>
+
+        <div class="data">
+
+            식품 :
+            <span id="resultFood">-</span>
+
+            <br>
+
+            LOT :
+            <span id="resultLot">-</span>
+
+            <br>
+
+            온도 :
+            <span id="resultTemperatureInfo">-</span>
+            ℃
+
+            <br>
+
+            보관 기간 :
+            <span id="resultStorageDays">-</span>
+            일
+
+            <br>
+
+            해동 횟수 :
+            <span id="resultThawCount">-</span>
+            회
+
+            <br>
+
+            재동결 횟수 :
+            <span id="resultRefreezeCount">-</span>
+            회
+
+        </div>
+
+
+        <!-- AI 판단 -->
+
+        <h3>
+            AI 판단
+        </h3>
+
+        <p id="analysis">
+            분석 결과가 여기에 표시됩니다.
+        </p>
+
+
+        <!-- 분석 결과 확인 -->
+
+        <button
+            type="button"
+            id="confirmResultButton"
+            style="display:none;"
+        >
+            분석결과 확인하기
+        </button>
+
+    </div>
+
+
+    <!-- =====================================================
+         3. 분석 기록
+    ====================================================== -->
+
+    <div class="card">
+
+        <h2>
+            분석 기록
+        </h2>
+
+        <button
+            type="button"
+            id="historyButton"
+        >
+            분석 기록 새로고침
+        </button>
+
+
+        <div id="historyMessage">
+
+            저장된 분석 기록이 없습니다.
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         4. 데이터 관리
+    ====================================================== -->
+
+    <div class="card">
+
+        <h2>
+            데이터 관리
+        </h2>
+
+        <p>
+            저장된 분석 기록과 온도·해동·재동결 이력을
+            전체 삭제할 수 있습니다.
+        </p>
+
+        <button
+            type="button"
+            id="resetDataButton"
+        >
+            데이터 전체 초기화
+        </button>
+
+    </div>
+
+</div>
+
+
+<script src="script.js"></script>
+
+</body>
+
+</html>
