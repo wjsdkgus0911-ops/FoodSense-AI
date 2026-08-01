@@ -1,19 +1,16 @@
 "use strict";
 
-
 /* =========================================================
    기본 설정
 ========================================================= */
 
-const API_URL =
-    window.location.origin;
-
+const API_URL = window.location.origin;
 
 let isAnalyzing = false;
-
 let isSaving = false;
-
 let pendingResult = null;
+
+console.log("FoodSense AI script.js 시작");
 
 /* =========================================================
    시작
@@ -263,13 +260,17 @@ document.addEventListener(
    서버 확인
 ========================================================= */
 
+/* =========================================================
+   서버 확인
+========================================================= */
+
 async function checkServer() {
 
     try {
 
         const response =
             await fetch(
-                API_URL + "/",
+                API_URL + "/docs",
                 {
                     method: "GET",
                     cache: "no-store"
