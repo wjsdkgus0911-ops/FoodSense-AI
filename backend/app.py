@@ -56,23 +56,20 @@ os.makedirs(
 # 1. FastAPI
 # ============================================================
 
-app = FastAPI(
-    title="FoodSense AI",
-    version="4.0.1"
-)
-
 from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
+FRONTEND_DIR = BASE_DIR / "frontend"
+
+templates = Jinja2Templates(
+    directory=str(FRONTEND_DIR)
+)
 
 app.mount(
     "/static",
     StaticFiles(directory=BASE_DIR / "static"),
     name="static"
 )
-
-
-
 
 app.add_middleware(
     CORSMiddleware,
@@ -81,8 +78,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-
 # ============================================================
 # 2. Blue Ratio 등급 기준
 # ============================================================
