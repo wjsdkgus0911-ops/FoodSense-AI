@@ -13,6 +13,14 @@ from datetime import datetime
 import cv2
 import numpy as np
 
+import os
+import sqlite3
+from datetime import datetime
+from pathlib import Path
+
+import cv2
+import numpy as np
+
 from fastapi import (
     FastAPI,
     UploadFile,
@@ -22,9 +30,6 @@ from fastapi import (
     Request
 )
 
-from pathlib import Path
-
-from fastapi import FastAPI
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 
@@ -52,18 +57,8 @@ app.mount(
     StaticFiles(directory=str(FRONTEND_DIR)),
     name="static"
 )
-def get_db():
-    conn = sqlite3.connect(DB_PATH)
-    conn.row_factory = sqlite3.Row
-    return conn
 
-def init_database():
-    conn = get_db()
-    ...
 
-    init_database()
-
-    
 # ============================================================
 # 2. Blue Ratio 등급 기준
 # ============================================================
