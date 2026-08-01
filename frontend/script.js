@@ -4,7 +4,7 @@
    기본 설정
 ========================================================= */
 
-const API_URL = window.location.origin;
+const FOODSense_API = window.location.origin;
 
 let isAnalyzing = false;
 let isSaving = false;
