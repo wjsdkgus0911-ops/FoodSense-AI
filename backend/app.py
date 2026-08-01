@@ -38,34 +38,32 @@ app = FastAPI(
     version="4.0.1"
 )
 
-
-# ============================================================
-# 2. Frontend 경로
-# ============================================================
-
 BASE_DIR = Path(__file__).resolve().parent.parent
 FRONTEND_DIR = BASE_DIR / "frontend"
 
-
-# ============================================================
-# 3. Templates
-# ============================================================
+DB_PATH = BASE_DIR / "foodsense.db"
 
 templates = Jinja2Templates(
     directory=str(FRONTEND_DIR)
 )
-
-
-# ============================================================
-# 4. Static 파일
-# ============================================================
 
 app.mount(
     "/static",
     StaticFiles(directory=str(FRONTEND_DIR)),
     name="static"
 )
+def get_db():
+    conn = sqlite3.connect(DB_PATH)
+    conn.row_factory = sqlite3.Row
+    return conn
 
+def init_database():
+    conn = get_db()
+    ...
+
+    init_database()
+
+    
 # ============================================================
 # 2. Blue Ratio 등급 기준
 # ============================================================
