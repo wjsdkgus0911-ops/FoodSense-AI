@@ -4,22 +4,13 @@
    기본 설정
 ========================================================= */
 
-const FOODSense_API = window.location.origin;
+const API_URL = window.location.origin;
 
 let isAnalyzing = false;
 let isSaving = false;
 let pendingResult = null;
 
 console.log("FoodSense AI script.js 시작");
-
-/* =========================================================
-   시작
-========================================================= */
-
-console.log(
-    "FoodSense AI script.js 시작"
-);
-
 
 /* =========================================================
    페이지 준비
