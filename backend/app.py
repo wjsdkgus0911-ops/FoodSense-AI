@@ -18,10 +18,14 @@ from fastapi import (
     UploadFile,
     File,
     Form,
-    HTTPException
+    HTTPException,
+    Request
 )
 
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import HTMLResponse
+from fastapi.staticfiles import StaticFiles
+from fastapi.templating import Jinja2Templates
 
 
 # ============================================================
@@ -56,6 +60,21 @@ app = FastAPI(
     title="FoodSense AI",
     version="4.0.1"
 )
+
+from pathlib import Path
+
+BASE_DIR = Path(__file__).resolve().parent
+FRONTEND_DIR = BASE_DIR.parent / "frontend"
+
+templates = Jinja2Templates(
+    directory=str(FRONTEND_DIR)
+)
+app.mount(
+    "/static",
+    StaticFiles(directory=str(FRONTEND_DIR)),
+    name="static"
+)
+
 
 app.add_middleware(
     CORSMiddleware,
@@ -316,15 +335,12 @@ init_database()
 # ============================================================
 
 @app.get("/")
-def root():
-
-    return {
-        "success": True,
-        "service": "FoodSense AI",
-        "version": "4.0.1",
-        "status": "running"
-    }
-
+def root(request: Request):
+    return templates.TemplateResponse(
+        request=request,
+        name="index.html",
+        context={}
+    )
 
 # ============================================================
 # 8. 온도 상태
