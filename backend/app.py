@@ -69,11 +69,8 @@ FRONTEND_DIR = BASE_DIR.parent / "frontend"
 templates = Jinja2Templates(
     directory=str(FRONTEND_DIR)
 )
-app.mount(
-    "/static",
-    StaticFiles(directory=str(FRONTEND_DIR)),
-    name="static"
-)
+app.mount("/static", StaticFiles(directory="static"), name="static")
+
 
 
 app.add_middleware(
