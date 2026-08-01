@@ -22,62 +22,50 @@ from fastapi import (
     Request
 )
 
-from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import HTMLResponse
-from fastapi.staticfiles import StaticFiles
+from pathlib import Path
+
+from fastapi import FastAPI
 from fastapi.templating import Jinja2Templates
-
-
-# ============================================================
-# 0. 기본 경로
-# ============================================================
-
-BASE_DIR = os.path.dirname(
-    os.path.abspath(__file__)
-)
-
-DB_PATH = os.path.join(
-    BASE_DIR,
-    "foodsense.db"
-)
-
-UPLOAD_DIR = os.path.join(
-    BASE_DIR,
-    "uploads"
-)
-
-os.makedirs(
-    UPLOAD_DIR,
-    exist_ok=True
-)
+from fastapi.staticfiles import StaticFiles
 
 
 # ============================================================
 # 1. FastAPI
 # ============================================================
 
-from pathlib import Path
+app = FastAPI(
+    title="FoodSense AI",
+    version="4.0.1"
+)
+
+
+# ============================================================
+# 2. Frontend 경로
+# ============================================================
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 FRONTEND_DIR = BASE_DIR / "frontend"
+
+
+# ============================================================
+# 3. Templates
+# ============================================================
 
 templates = Jinja2Templates(
     directory=str(FRONTEND_DIR)
 )
 
+
+# ============================================================
+# 4. Static 파일
+# ============================================================
+
 app.mount(
     "/static",
-    StaticFiles(directory=Path(__file__).resolve().parent / "static"),
+    StaticFiles(directory=str(FRONTEND_DIR)),
     name="static"
 )
 
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=False,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
 # ============================================================
 # 2. Blue Ratio 등급 기준
 # ============================================================
