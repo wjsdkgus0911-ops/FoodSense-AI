@@ -63,11 +63,12 @@ app = FastAPI(
 
 from pathlib import Path
 
-BASE_DIR = Path(__file__).resolve().parent
-FRONTEND_DIR = BASE_DIR.parent / "frontend"
+BASE_DIR = Path(__file__).resolve().parent.parent
 
-templates = Jinja2Templates(
-    directory=str(FRONTEND_DIR)
+app.mount(
+    "/static",
+    StaticFiles(directory=BASE_DIR / "static"),
+    name="static"
 )
 
 
