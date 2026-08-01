@@ -20,7 +20,6 @@ console.log(
     "FoodSense AI script.js 시작"
 );
 
-const API_URL = window.location.origin;
 
 /* =========================================================
    페이지 준비
