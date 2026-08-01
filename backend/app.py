@@ -48,6 +48,9 @@ FRONTEND_DIR = BASE_DIR / "frontend"
 
 DB_PATH = BASE_DIR / "foodsense.db"
 
+UPLOAD_DIR = BASE_DIR / "uploads"
+UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
+
 templates = Jinja2Templates(
     directory=str(FRONTEND_DIR)
 )
