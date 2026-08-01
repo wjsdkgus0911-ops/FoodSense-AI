@@ -5,7 +5,8 @@
    기본 설정
 ========================================================= */
 
-const API_BASE_URL = window.location.origin;
+const API_URL =
+    window.location.origin;
 
 
 let isAnalyzing = false;
@@ -13,7 +14,6 @@ let isAnalyzing = false;
 let isSaving = false;
 
 let pendingResult = null;
-
 
 /* =========================================================
    시작
@@ -276,7 +276,6 @@ async function checkServer() {
                 }
             );
 
-
         if (!response.ok) {
 
             throw new Error(
@@ -286,19 +285,11 @@ async function checkServer() {
 
         }
 
-
-        const data =
-            await response.json();
-
-
         console.log(
-            "FastAPI 연결 성공:",
-            data
+            "FastAPI 연결 성공"
         );
 
-
         return true;
-
 
     } catch (error) {
 
@@ -307,13 +298,11 @@ async function checkServer() {
             error
         );
 
-
         return false;
 
     }
 
 }
-
 
 /* =========================================================
    이미지 분석
@@ -702,7 +691,6 @@ function displayResult(data) {
             "analysisWaiting"
         );
 
-
     if (waiting) {
 
         waiting.style.display =
@@ -711,7 +699,9 @@ function displayResult(data) {
     }
 
 
-    /* 점수 */
+    /* =====================================================
+       품질 점수
+    ===================================================== */
 
     setText(
         "score",
@@ -720,7 +710,9 @@ function displayResult(data) {
     );
 
 
-    /* 상태 */
+    /* =====================================================
+       품질 상태
+    ===================================================== */
 
     setText(
         "qualityStatus",
@@ -728,7 +720,9 @@ function displayResult(data) {
     );
 
 
-    /* 등급 */
+    /* =====================================================
+       품질 등급
+    ===================================================== */
 
     setText(
         "grade",
@@ -737,7 +731,9 @@ function displayResult(data) {
     );
 
 
-    /* 상태 설명 */
+    /* =====================================================
+       상태 설명
+    ===================================================== */
 
     setText(
         "freshness",
@@ -746,13 +742,14 @@ function displayResult(data) {
     );
 
 
-    /* 온도 */
+    /* =====================================================
+       온도
+    ===================================================== */
 
     setText(
         "resultTemperature",
         data.temperature
     );
-
 
     setText(
         "resultTemperatureInfo",
@@ -760,13 +757,14 @@ function displayResult(data) {
     );
 
 
-    /* 해동 */
+    /* =====================================================
+       해동 횟수
+    ===================================================== */
 
     setText(
         "thawCount",
         data.thaw_count
     );
-
 
     setText(
         "resultThawCount",
@@ -774,13 +772,14 @@ function displayResult(data) {
     );
 
 
-    /* 재동결 */
+    /* =====================================================
+       재동결 횟수
+    ===================================================== */
 
     setText(
         "refreezeCount",
         data.refreeze_count
     );
-
 
     setText(
         "resultRefreezeCount",
@@ -788,7 +787,9 @@ function displayResult(data) {
     );
 
 
-    /* 온도 상태 */
+    /* =====================================================
+       온도 상태
+    ===================================================== */
 
     setText(
         "temperatureStatus",
@@ -796,7 +797,9 @@ function displayResult(data) {
     );
 
 
-    /* 식품 */
+    /* =====================================================
+       식품
+    ===================================================== */
 
     setText(
         "resultFood",
@@ -804,7 +807,9 @@ function displayResult(data) {
     );
 
 
-    /* LOT */
+    /* =====================================================
+       LOT
+    ===================================================== */
 
     setText(
         "resultLot",
@@ -812,7 +817,9 @@ function displayResult(data) {
     );
 
 
-    /* 보관 기간 */
+    /* =====================================================
+       보관 기간
+    ===================================================== */
 
     setText(
         "resultStorageDays",
@@ -820,7 +827,9 @@ function displayResult(data) {
     );
 
 
-    /* Blue Ratio */
+    /* =====================================================
+       Blue Ratio
+    ===================================================== */
 
     const blueRatio =
         Number(
@@ -858,7 +867,6 @@ function displayResult(data) {
                     )
                 );
 
-
             bar.style.width =
                 width + "%";
 
@@ -874,7 +882,9 @@ function displayResult(data) {
     }
 
 
-    /* 센서 영역 */
+    /* =====================================================
+       센서 영역
+    ===================================================== */
 
     setText(
         "sensorDetection",
@@ -882,57 +892,9 @@ function displayResult(data) {
     );
 
 
-    /* RGB */
-
-    const color =
-        data.sensor_color ||
-        {};
-
-
-    setText(
-        "r",
-        color.R
-    );
-
-
-    setText(
-        "g",
-        color.G
-    );
-
-
-    setText(
-        "b",
-        color.B
-    );
-
-
-    /* HSV */
-
-    const hsv =
-        data.hsv ||
-        {};
-
-
-    setText(
-        "h",
-        hsv.H
-    );
-
-
-    setText(
-        "s",
-        hsv.S
-    );
-
-
-    setText(
-        "v",
-        hsv.V
-    );
-
-
-    /* AI 판단 */
+    /* =====================================================
+       AI 판단
+    ===================================================== */
 
     setText(
         "analysis",
